@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Ingleside RFS — Personnel</title>
+<style>
+  /* paste the same :root, tile, card, btn-primary etc. styles from index.html here */
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div class="header">
+    <div class="header-title">
+      <h1>Ingleside RFS</h1>
+      <p>Personnel / Admin</p>
+    </div>
+  </div>
+
+  <!-- LOCK SCREEN -->
+  <div id="page-lock" class="page active">
+    <div class="card" style="margin-top: 10vw;">
+      <div class="card-head">Restricted Access</div>
+      <div style="padding: min(5vw,20px);">
+        <p class="page-sub" style="margin-bottom: 4vw;">Personnel section. Enter the admin PIN to continue.</p>
+        <input type="password" id="pin-input" style="width:100%; padding:min(3.5vw,14px); border:1.5px solid var(--border); border-radius:7px; font-size:min(5vw,20px); font-family:'Oswald',sans-serif; letter-spacing:0.3em; text-align:center;" placeholder="••••" autocomplete="off">
+        <div class="lock-error" id="lock-error"></div>
+        <button class="btn-primary" onclick="verifyPIN()">Unlock</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TILES -->
+  <div id="page-tiles" class="page">
+    <button class="back-btn" onclick="window.location.href='index.html'">← Back to Hub</button>
+    <div class="page-title">Personnel / Admin</div>
+    <div class="tiles">
+      <div class="tile" onclick="window.open('https://script.google.com/macros/s/AKfycbycaRVcBRnpTW69Nm94eMod5w6dyexGcK_Kb88soMG2nE1MyLkWIFRjHe7JcvWVw7ypoA/exec','_blank')">
+        <div class="tile-icon">🪧</div><div class="tile-label">Crew Assignment</div>
+      </div>
+      <div class="tile" onclick="window.open('https://script.google.com/macros/s/AKfycbwx3vam-XktnDadzqf4Dy3scBjyNulNI18YTVVdg-wKG-dhlDfYdGowT9qw51YNQDE1/exec','_blank')">
+        <div class="tile-icon">🏢</div><div class="tile-label">Brigade Management</div>
+      </div>
+      <div class="tile" onclick="window.open('https://script.google.com/macros/s/AKfycbxD9iXerbv3dRhfu-K9HmaievPEm7j8VGmVekurtHFoQt5Fqwp-or6MZoDRS0WESIZN/exec','_blank')">
+        <div class="tile-icon">🎖️</div><div class="tile-label">Honour Board</div>
+      </div>
+      <div class="tile" onclick="window.open('https://script.google.com/macros/s/AKfycbyvqbAIoIM-JZ7hdL4js0TPAn0ggxfQb_-H-zAMRgDr24c-gInK8PkZ2eSpK7JEuQOc/exec','_blank')">
+        <div class="tile-icon">📚</div><div class="tile-label">Comm Ed</div>
+      </div>
+      <div class="tile" onclick="window.open('https://script.google.com/macros/s/AKfycbw7hYrfaO6FVoICAln75KGMujCvlUK9CmP8DQvIqCjApH5S0gxXI2CLXK3eVjpi7B7i/exec','_blank')">
+        <div class="tile-icon">📅</div><div class="tile-label">AGM</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ADMIN_PIN = "CHANGE_ME"; // pick a PIN different from the Tier 1 one
+
+function verifyPIN() {
+  const val = document.getElementById('pin-input').value;
+  if (val === ADMIN_PIN) {
+    document.getElementById('page-lock').classList.remove('active');
+    document.getElementById('page-tiles').classList.add('active');
+  } else {
+    document.getElementById('lock-error').textContent = 'Incorrect PIN — access denied.';
+    document.getElementById('pin-input').value = '';
+  }
+}
+document.getElementById('pin-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') verifyPIN();
+});
+</script>
+</body>
+</html>
