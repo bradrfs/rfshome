@@ -170,7 +170,7 @@
       <div style="padding: min(5vw,20px);">
         <p class="page-sub" style="margin-bottom: 4vw; font-size: min(3.5vw, 14px);">This section is restricted to authorised management members. Enter the admin PIN to continue.</p>
         <label style="display:block; font-family:'Oswald',sans-serif; font-size:min(3.2vw,12px); letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:2vw;">Admin PIN</label>
-        <input type="password" id="pin-input" style="width:100%; padding:min(3.5vw,14px); border:1.5px solid var(--border); border-radius:7px; font-size:min(5vw,20px); font-family:'Oswald',sans-serif; letter-spacing:0.3em; color:var(--text); background:var(--bg); outline:none; text-align:center;" placeholder="••••" autocomplete="off">
+        <input type="password" id="pin-input" inputmode="numeric" pattern="[0-9]*" style="width:100%; padding:min(3.5vw,14px); border:1.5px solid var(--border); border-radius:7px; font-size:min(5vw,20px); font-family:'Oswald',sans-serif; letter-spacing:0.3em; color:var(--text); background:var(--bg); outline:none; text-align:center;" placeholder="••••" autocomplete="off">
         <div class="lock-error" id="lock-error"></div>
         <button class="btn-primary" onclick="verifyPIN()">Unlock</button>
       </div>
@@ -215,7 +215,7 @@
 
 <script>
 // Pick a PIN that is DIFFERENT from the Tier 1 hub PIN in index.html
-const ADMIN_PIN = "9450";
+const ADMIN_PIN = "CHANGE_ME";
 
 function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
