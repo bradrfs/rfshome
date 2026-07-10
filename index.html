@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Ingleside RFS — Hub</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap');
+
+  :root {
+    --red:        #C0272D;
+    --red-dark:   #9a1f23;
+    --red-light:  #e8474d;
+    --gold:       #C9A84C;
+    --gold-dark:  #a88730;
+    --bg:         #f7f2e8;
+    --card:       #fff;
+    --border:     #e8d5a3;
+    --text:       #1a1a1a;
+    --muted:      #555;
+    --subtle:     #888;
+    --max:        540px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .lock-error {
+    color: var(--red);
+    font-size: min(3.2vw, 12px);
+    margin-top: 2vw;
+    text-align: center;
+    min-height: 1.4em;
+  }
+  .btn-primary {
+    width: 100%;
+    margin-top: 4vw;
+    padding: min(4vw, 16px);
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    font-family: 'Oswald', sans-serif;
+    font-size: min(4.5vw, 17px);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.18s;
+  }
+  .btn-primary:hover { background: var(--red-dark); }
+
+  #app {
+    width: 100%;
+    max-width: var(--max);
+    padding: 3vw;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .header {
+    background: #1a1a1a;
+    border-bottom: 3px solid var(--red);
+    padding: 2vw 3vw;
+    display: flex; align-items: center; gap: 2.5vw;
+    position: sticky; top: 0; z-index: 200;
+    width: 100%;
+  }
+  .header-logo {
+    width: 10vw; height: 10vw; max-width: 48px; max-height: 48px;
+    border-radius: 50%; background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; overflow: hidden;
+  }
+  .header-logo img { width: 100%; height: 100%; object-fit: contain; }
+  .header-title { flex: 1; min-width: 0; }
+  .header-title h1 {
+    font-size: 4.5vw; font-weight: 700; color: #fff;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .header-title p {
+    font-size: 2.5vw; color: var(--gold);
+    letter-spacing: 0.3vw; text-transform: uppercase; margin-top: 0.5vw;
+  }
+
+  .icon-btn {
+    background: transparent; border: 1px solid #555; border-radius: 1.5vw;
+    color: #ccc; cursor: pointer; padding: 2vw 2.5vw; font-size: 3.5vw;
+    display: flex; align-items: center; gap: 1.5vw; flex-shrink: 0;
+    transition: all 0.15s; line-height: 1;
+  }
+  .icon-btn:hover { border-color: var(--red); color: #fff; background: #2a0505; }
+
+  .page { display: none; flex-direction: column; gap: 3vw; flex: 1; }
+  .page.active { display: flex; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--red);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+  }
+  .card-head {
+    font-family: 'Oswald', sans-serif;
+    font-size: min(3.2vw, 12px);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: min(3vw, 12px) min(4vw, 16px);
+    border-bottom: 1px solid var(--border);
+    background: #faf7f0;
+  }
+
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 3vw; margin-top: 2vw; }
+  .tile {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--red);
+    border-radius: 10px;
+    padding: 5vw 4vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5vw;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--text);
+    box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .tile::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(192,39,45,0.04) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .tile:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(192,39,45,0.15); border-top-color: var(--red-dark); }
+  .tile:hover::before { opacity: 1; }
+  .tile:active { transform: translateY(0); }
+  .tile-icon { font-size: min(10vw, 40px); line-height: 1; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.1)); }
+  .tile-label { font-family: 'Oswald', sans-serif; font-size: min(4.2vw, 16px); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text); text-align: center; }
+  .tile-sub { font-size: min(3vw, 11px); color: var(--muted); text-align: center; font-style: italic; line-height: 1.3; }
+  .tile.gold-top { border-top-color: var(--gold); }
+  .tile.gold-top:hover { border-top-color: var(--gold-dark); box-shadow: 0 6px 20px rgba(201,168,76,0.2); }
+  .tile-lock { position: absolute; top: 2vw; right: 2.5vw; font-size: min(3vw, 12px); opacity: 0.4; }
+
+  .back-btn {
+    display: flex; align-items: center; gap: 2vw; background: none; border: none; cursor: pointer; color: var(--red); font-family: 'Oswald', sans-serif; font-size: min(4vw, 15px); letter-spacing: 0.05em; text-transform: uppercase; padding: 0; margin-bottom: 1vw;
+  }
+  .back-btn:hover { color: var(--red-dark); }
+  .page-title { font-family: 'Oswald', sans-serif; font-size: min(6vw, 24px); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text); margin-bottom: 1vw; }
+  .page-sub { font-size: min(3.2vw, 12.5px); color: var(--muted); font-style: italic; margin-bottom: 2vw; }
+
+  .footer { margin-top: auto; padding: 3vw 0 2vw; text-align: center; font-size: min(3vw, 11px); color: var(--subtle); font-style: italic; border-top: 1px solid var(--border); }
+
+  .section-banner { background: #1a1a1a; color: var(--gold); font-family: 'Oswald', sans-serif; font-size: min(3.2vw, 12px); font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; text-align: center; padding: min(2.5vw, 10px) min(4vw, 16px); border-radius: 7px; margin-top: 2vw; }
+  .quick-links { display: flex; gap: 2vw; margin-top: 4vw; }
+  .quick-link { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 1.5vw; padding: 3.5vw 2vw; background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--gold); border-radius: 10px; text-decoration: none; color: var(--text); font-family: 'Oswald', sans-serif; font-size: min(3.5vw, 13px); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; transition: all 0.18s; box-shadow: 0 1px 8px rgba(0,0,0,0.05); }
+  .quick-link:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(201,168,76,0.18); }
+  .quick-link-icon { font-size: min(7vw, 28px); line-height: 1; }
+  .quick-link-sub { font-size: min(2.6vw, 10px); color: var(--subtle); text-transform: none; letter-spacing: 0; font-family: 'Source Serif 4', serif; font-style: italic; font-weight: 400; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .page.active { animation: fadeIn 0.22s ease; }
+  #app { animation: fadeIn 0.3s ease; }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <!-- Top Global Header -->
+  <div class="header">
+    <div class="header-logo">
+      <img src="https://www.inglesiderfs.org.au/wp-content/uploads/2021/08/cropped-RFS-Logo-1-32x32.png" alt="Ingleside RFS">
+    </div>
+    <div class="header-title">
+      <h1>Ingleside RFS</h1>
+      <p>Brigade Operations Hub</p>
+    </div>
+  </div>
+
+  <!-- ── HUB LANDING DASHBOARD ── -->
+  <div id="page-home" class="page active">
+    <div class="tiles">
+      <div class="tile" onclick="openRoute('attendance.html')">
+        <div class="tile-icon">📋</div>
+        <div class="tile-label">Attendance</div>
+        <div class="tile-sub">Sign in & track turnout</div>
+      </div>
+
+      <div class="tile" onclick="openRoute('truck.html')">
+        <div class="tile-icon">🚒</div>
+        <div class="tile-label">Truck Checks</div>
+        <div class="tile-sub">Vehicle inspection log</div>
+      </div>
+
+      <div class="tile" onclick="openRoute('crew.html')">
+        <div class="tile-icon">🪧</div>
+        <div class="tile-label">Crew Assignment</div>
+        <div class="tile-sub">Active crew positions</div>
+      </div>
+
+      <div class="tile" onclick="openRoute('weather.html')">
+        <div class="tile-icon">🌤️</div>
+        <div class="tile-label">Weather</div>
+        <div class="tile-sub">Fire weather & conditions</div>
+      </div>
+
+      <div class="tile" onclick="openRoute('onboarding.html')">
+        <div class="tile-icon">🆕</div>
+        <div class="tile-label">New Member</div>
+        <div class="tile-sub">Onboarding & induction</div>
+      </div>
+
+      <div class="tile" onclick="openRoute('honour.html')">
+        <div class="tile-icon">🎖️</div>
+        <div class="tile-label">Honour Board</div>
+        <div class="tile-sub">Brigade history & lineage</div>
+      </div>
+
+      <div class="tile" style="border-top-color: #3a6ea5;" onclick="window.open('https://flickform.com/directories/5a50faea-8b38-4b74-a6bc-0e8e31bf7632', '_blank')">
+        <div class="tile-icon">🏛️</div>
+        <div class="tile-label">NB Member Hub</div>
+        <div class="tile-sub">PPE, PPC, training forms</div>
+      </div>
+
+      <!-- Secure Gate Entry Point -->
+      <div class="tile gold-top" onclick="showPersonnelLock()">
+        <div class="tile-lock">🔒</div>
+        <div class="tile-icon">👥</div>
+        <div class="tile-label">Personnel / Admin</div>
+        <div class="tile-sub">Restricted brigade networks</div>
+      </div>
+    </div>
+
+    <div class="section-banner">Useful Links</div>
+    <div class="quick-links">
+      <a class="quick-link" href="https://pager.nbpager.org" target="_blank">
+        <div class="quick-link-icon">📟</div>
+        RFS Pager
+        <div class="quick-link-sub">Pager + radio stream</div>
+      </a>
+      <a class="quick-link" href="https://www.broadcastify.com/listen/feed/41749" target="_blank">
+        <div class="quick-link-icon">📻</div>
+        NB Scanner
+        <div class="quick-link-sub">Broadcastify feed</div>
+      </a>
+    </div>
+
+    <div class="footer">Ingleside Rural Fire Brigade &nbsp;·&nbsp; Northern Beaches District</div>
+  </div>
+
+  <!-- ── SECURE AUTH GATE PAGE ── -->
+  <div id="page-personnel-lock" class="page">
+    <button class="back-btn" onclick="showPage('home')">← Back</button>
+    <div class="page-title">Personnel Gate</div>
+    <div class="page-sub">This section is restricted to authorised members. Authentication runs securely in the cloud.</div>
+
+    <div class="card">
+      <div class="card-head">Authentication Required</div>
+      <div style="padding: min(5vw,20px);">
+        <label style="display:block; font-family:'Oswald',sans-serif; font-size:min(3.2vw,12px); letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:2vw;">Personnel Access Code</label>
+        <input type="password" id="personnel-password" style="width:100%; padding:min(3.5vw,14px); border:1.5px solid var(--border); border-radius:7px; font-size:min(5vw,20px); font-family:'Oswald',sans-serif; letter-spacing:0.3em; color:var(--text); background:var(--bg); outline:none; text-align:center;" placeholder="••••" autocomplete="off">
+        <div class="lock-error" id="personnel-lock-error"></div>
+        <button class="btn-primary" style="margin-top:4vw;" onclick="unlockPersonnelBackend()">Verify Credentials</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SERVER-SIDE INJECTED LANDING TARGET ── -->
+  <div id="page-personnel" class="page">
+     <!-- Google Apps Script will securely overwrite this target layout container inside DOM upon password verification -->
+  </div>
+
+</div>
+
+<script>
+// REPLACE WITH YOUR ACTUAL DEPLOYED GOOGLE APPS SCRIPT WEB APP GATEWAY LINK
+const GAS_GATEWAY_URL = "https://script.google.com/macros/s/XXXXXXXXXXXXXXXXXXXX/exec";
+
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  var target = document.getElementById('page-' + name);
+  if (target) target.classList.add('active');
+}
+
+function showPersonnelLock() {
+  document.getElementById('personnel-lock-error').textContent = '';
+  document.getElementById('personnel-password').value = '';
+  showPage('personnel-lock');
+}
+
+// Securely calls Google Backend to handle auth without exposing anything to source code inspection
+function unlockPersonnelBackend() {
+  var val = document.getElementById('personnel-password').value;
+  document.getElementById('personnel-lock-error').style.color = "var(--muted)";
+  document.getElementById('personnel-lock-error').textContent = 'Validating security clearance...';
+  
+  // Create a clean JSONP callback construct to bypass standard CORS constraints on direct API hits
+  const script = document.createElement('script');
+  const callbackName = 'gasAuthCallback_' + Math.random().toString(36).substr(2, 9);
+  
+  window[callbackName] = function(response) {
+    if (response === "INVALID") {
+      document.getElementById('personnel-lock-error').style.color = "var(--red)";
+      document.getElementById('personnel-lock-error').textContent = 'Incorrect code — access denied.';
+      document.getElementById('personnel-password').value = '';
+    } else {
+      document.getElementById('personnel-lock-error').textContent = '';
+      const personnelContainer = document.getElementById('page-personnel');
+      personnelContainer.innerHTML = response;
+      showPage('personnel');
+    }
+    document.body.removeChild(script);
+    delete window[callbackName];
+  };
+
+  script.src = GAS_GATEWAY_URL + "?action=auth&password=" + encodeURIComponent(val) + "&callback=" + callbackName;
+  document.body.appendChild(script);
+}
+
+document.getElementById('personnel-password').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') unlockPersonnelBackend();
+});
+
+function openRoute(localFile) {
+  window.location.href = localFile;
+}
+
+function openDirectLink(url) {
+  window.open(url, '_blank');
+}
+</script>
+</body>
+</html>
