@@ -201,7 +201,7 @@
       <div style="padding: min(5vw,20px);">
         <p class="page-sub" style="margin-bottom: 4vw; font-size: min(3.5vw, 14px);">This system is restricted to brigade operational personnel. Please enter the shared site PIN to unlock the dashboard.</p>
         <label style="display:block; font-family:'Oswald',sans-serif; font-size:min(3.2vw,12px); letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:2vw;">Brigade Shared PIN</label>
-        <input type="password" id="global-pin-input" style="width:100%; padding:min(3.5vw,14px); border:1.5px solid var(--border); border-radius:7px; font-size:min(5vw,20px); font-family:'Oswald',sans-serif; letter-spacing:0.3em; color:var(--text); background:var(--bg); outline:none; text-align:center;" placeholder="••••" autocomplete="off">
+        <input type="password" id="global-pin-input" inputmode="numeric" pattern="[0-9]*" style="width:100%; padding:min(3.5vw,14px); border:1.5px solid var(--border); border-radius:7px; font-size:min(5vw,20px); font-family:'Oswald',sans-serif; letter-spacing:0.3em; color:var(--text); background:var(--bg); outline:none; text-align:center;" placeholder="••••" autocomplete="off">
         <div class="lock-error" id="global-lock-error"></div>
         <button class="btn-primary" style="margin-top: 4vw;" onclick="verifyGlobalPIN()">Access Hub</button>
       </div>
