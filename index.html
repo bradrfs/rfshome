@@ -4,22 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Ingleside RFS — Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap');
-
   :root {
-    --red:        #C0272D;
-    --red-dark:   #9a1f23;
-    --red-light:  #e8474d;
-    --gold:       #C9A84C;
-    --gold-dark:  #a88730;
-    --bg:         #f7f2e8;
-    --card:       #fff;
-    --border:     #e8d5a3;
-    --text:       #1a1a1a;
-    --muted:      #555;
-    --subtle:     #888;
-    --max:        540px;
+    --red:       #C0272D;
+    --red-dark:  #9a1f23;
+    --red-light: #e8474d;
+    --gold:      #C9A84C;
+    --gold-dark: #a88730;
+    --bg:        #f7f2e8;
+    --card:      #fff;
+    --border:    #e8d5a3;
+    --text:      #1a1a1a;
+    --muted:     #555;
+    --subtle:    #888;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -29,81 +28,75 @@
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
 
-  .lock-error {
-    color: var(--red);
-    font-size: min(3.2vw, 12px);
-    margin-top: 2vw;
-    text-align: center;
-    min-height: 1.4em;
-  }
-  .btn-primary {
-    width: 100%;
-    margin-top: 4vw;
-    padding: min(4vw, 16px);
-    background: var(--red);
-    color: #fff;
-    border: none;
-    border-radius: 7px;
-    font-family: 'Oswald', sans-serif;
-    font-size: min(4.5vw, 17px);
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.18s;
-  }
-  .btn-primary:hover { background: var(--red-dark); }
-
-  #app {
-    width: 100%;
-    max-width: var(--max);
-    padding: 3vw;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-
+  /* ── HEADER ── */
   .header {
     background: #1a1a1a;
     border-bottom: 3px solid var(--red);
-    padding: 2vw 3vw;
-    display: flex; align-items: center; gap: 2.5vw;
-    position: sticky; top: 0; z-index: 200;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
     width: 100%;
   }
   .header-logo {
-    width: 12vw; height: 12vw; max-width: 52px; max-height: 52px;
-    border-radius: 50%; background: #fff;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: #fff;
     display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; overflow: hidden; border: 1px solid var(--gold);
+    flex-shrink: 0; overflow: hidden;
+    border: 1px solid var(--gold);
   }
   .header-logo img { width: 90%; height: 90%; object-fit: contain; }
+  .header-inner {
+    /* centres content on wide screens */
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
   .header-title { flex: 1; min-width: 0; }
   .header-title h1 {
-    font-size: 4.5vw; font-weight: 700; color: #fff;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(16px, 4.5vw, 22px);
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .header-title p {
-    font-size: 2.5vw; color: var(--gold);
-    letter-spacing: 0.3vw; text-transform: uppercase; margin-top: 0.5vw;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(10px, 2.5vw, 12px);
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-top: 2px;
   }
 
-  .icon-btn {
-    background: transparent; border: 1px solid #555; border-radius: 1.5vw;
-    color: #ccc; cursor: pointer; padding: 2vw 2.5vw; font-size: 3.5vw;
-    display: flex; align-items: center; gap: 1.5vw; flex-shrink: 0;
-    transition: all 0.15s; line-height: 1;
+  /* ── LAYOUT SHELL ── */
+  .shell {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: clamp(16px, 3vw, 32px) clamp(14px, 3vw, 24px);
+    min-height: calc(100vh - 67px);
+    display: flex;
+    flex-direction: column;
   }
-  .icon-btn:hover { border-color: var(--red); color: #fff; background: #2a0505; }
 
-  .page { display: none; flex-direction: column; gap: 3vw; flex: 1; }
-  .page.active { display: flex; }
+  /* ── PAGES ── */
+  .page { display: none; flex-direction: column; gap: clamp(12px, 3vw, 20px); flex: 1; }
+  .page.active { display: flex; animation: fadeIn 0.22s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
+  /* ── CARD ── */
   .card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -114,26 +107,105 @@
   }
   .card-head {
     font-family: 'Oswald', sans-serif;
-    font-size: min(3.2vw, 12px);
+    font-size: clamp(10px, 2.8vw, 12px);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--muted);
-    padding: min(3vw, 12px) min(4vw, 16px);
+    padding: 10px 16px;
     border-bottom: 1px solid var(--border);
     background: #faf7f0;
   }
+  .card-body { padding: clamp(16px, 4vw, 24px); }
 
-  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 3vw; margin-top: 2vw; }
+  /* ── LOCK SCREEN ── */
+  .lock-wrap {
+    max-width: 400px;
+    margin: clamp(24px, 8vw, 60px) auto 0;
+    width: 100%;
+  }
+  .lock-label {
+    display: block;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(10px, 3vw, 12px);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .lock-input {
+    width: 100%;
+    padding: clamp(10px, 3vw, 14px);
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    font-size: clamp(18px, 5vw, 22px);
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.3em;
+    color: var(--text);
+    background: var(--bg);
+    outline: none;
+    text-align: center;
+    transition: border-color 0.15s;
+  }
+  .lock-input:focus { border-color: var(--red); }
+  .lock-error {
+    color: var(--red);
+    font-size: clamp(11px, 3vw, 13px);
+    margin-top: 8px;
+    text-align: center;
+    min-height: 1.4em;
+    font-style: italic;
+  }
+  .lock-desc {
+    font-size: clamp(12px, 3.5vw, 14px);
+    color: var(--muted);
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: clamp(14px, 4vw, 20px);
+  }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    width: 100%;
+    margin-top: clamp(12px, 4vw, 18px);
+    padding: clamp(12px, 3.5vw, 16px);
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(14px, 4vw, 17px);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.18s;
+  }
+  .btn-primary:hover { background: var(--red-dark); }
+
+  /* ── TILE GRID ──
+     Mobile:  2 columns
+     Tablet+: 3 columns
+     Desktop: 3 columns with more breathing room
+  ── */
+  .tiles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(10px, 2.5vw, 18px);
+  }
+  @media (min-width: 600px) {
+    .tiles { grid-template-columns: repeat(3, 1fr); }
+  }
+
   .tile {
     background: var(--card);
     border: 1px solid var(--border);
     border-top: 4px solid var(--red);
     border-radius: 10px;
-    padding: 5vw 4vw;
+    padding: clamp(16px, 4vw, 24px) clamp(12px, 3vw, 20px);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2.5vw;
+    gap: clamp(8px, 2vw, 12px);
     cursor: pointer;
     text-decoration: none;
     color: var(--text);
@@ -149,42 +221,137 @@
     opacity: 0;
     transition: opacity 0.2s;
   }
-  .tile:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(192,39,45,0.15); border-top-color: var(--red-dark); }
+  .tile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(192,39,45,0.15);
+    border-top-color: var(--red-dark);
+  }
   .tile:hover::before { opacity: 1; }
   .tile:active { transform: translateY(0); }
-  .tile-icon { font-size: min(10vw, 40px); line-height: 1; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.1)); }
-  .tile-label { font-family: 'Oswald', sans-serif; font-size: min(4.2vw, 16px); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text); text-align: center; }
-  .tile-sub { font-size: min(3vw, 11px); color: var(--muted); text-align: center; font-style: italic; line-height: 1.3; }
   .tile.gold-top { border-top-color: var(--gold); }
-  .tile.gold-top:hover { border-top-color: var(--gold-dark); box-shadow: 0 6px 20px rgba(201,168,76,0.2); }
-  .tile-lock { position: absolute; top: 2vw; right: 2.5vw; font-size: min(3vw, 12px); opacity: 0.4; }
-
-  .back-btn {
-    display: flex; align-items: center; gap: 2vw; background: none; border: none; cursor: pointer; color: var(--red); font-family: 'Oswald', sans-serif; font-size: min(4vw, 15px); letter-spacing: 0.05em; text-transform: uppercase; padding: 0; margin-bottom: 1vw;
+  .tile.gold-top:hover { border-top-color: var(--gold-dark); box-shadow: 0 8px 24px rgba(201,168,76,0.2); }
+  .tile-lock { position: absolute; top: 8px; right: 10px; font-size: clamp(10px, 2.5vw, 12px); opacity: 0.4; }
+  .tile-icon { font-size: clamp(28px, 8vw, 40px); line-height: 1; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.1)); }
+  .tile-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(13px, 3.8vw, 16px);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-align: center;
   }
-  .back-btn:hover { color: var(--red-dark); }
-  .page-title { font-family: 'Oswald', sans-serif; font-size: min(6vw, 24px); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text); margin-bottom: 1vw; }
-  .page-sub { font-size: min(3.2vw, 12.5px); color: var(--muted); font-style: italic; margin-bottom: 2vw; }
+  .tile-sub {
+    font-size: clamp(10px, 2.6vw, 12px);
+    color: var(--muted);
+    text-align: center;
+    font-style: italic;
+    line-height: 1.3;
+  }
 
-  .footer { margin-top: auto; padding: 3vw 0 2vw; text-align: center; font-size: min(3vw, 11px); color: var(--subtle); font-style: italic; border-top: 1px solid var(--border); }
+  /* ── SECTION BANNER ── */
+  .section-banner {
+    background: #1a1a1a;
+    color: var(--gold);
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(10px, 2.8vw, 12px);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 10px 16px;
+    border-radius: 7px;
+  }
 
-  .section-banner { background: #1a1a1a; color: var(--gold); font-family: 'Oswald', sans-serif; font-size: min(3.2vw, 12px); font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; text-align: center; padding: min(2.5vw, 10px) min(4vw, 16px); border-radius: 7px; margin-top: 2vw; }
-  .quick-links { display: flex; gap: 2vw; margin-top: 4vw; }
-  .quick-link { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 1.5vw; padding: 3.5vw 2vw; background: var(--card); border: 1px solid var(--border); border-top: 3px solid var(--gold); border-radius: 10px; text-decoration: none; color: var(--text); font-family: 'Oswald', sans-serif; font-size: min(3.5vw, 13px); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; text-align: center; transition: all 0.18s; box-shadow: 0 1px 8px rgba(0,0,0,0.05); }
-  .quick-link:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(201,168,76,0.18); }
-  .quick-link-icon { font-size: min(7vw, 28px); line-height: 1; }
-  .quick-link-sub { font-size: min(2.6vw, 10px); color: var(--subtle); text-transform: none; letter-spacing: 0; font-family: 'Source Serif 4', serif; font-style: italic; font-weight: 400; }
+  /* ── QUICK LINKS ── */
+  .quick-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(8px, 2vw, 14px);
+  }
+  @media (min-width: 600px) {
+    .quick-links { grid-template-columns: repeat(4, 1fr); }
+  }
 
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  .page.active { animation: fadeIn 0.22s ease; display: flex; }
-  #app { animation: fadeIn 0.3s ease; }
+  .quick-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(6px, 1.5vw, 10px);
+    padding: clamp(12px, 3vw, 18px) clamp(8px, 2vw, 14px);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--gold);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text);
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(11px, 3vw, 13px);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-align: center;
+    transition: all 0.18s;
+    box-shadow: 0 1px 8px rgba(0,0,0,0.05);
+  }
+  .quick-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(201,168,76,0.2);
+  }
+  .quick-link-icon { font-size: clamp(22px, 6vw, 28px); line-height: 1; }
+  .quick-link-sub {
+    font-size: clamp(10px, 2.4vw, 11px);
+    color: var(--subtle);
+    text-transform: none;
+    letter-spacing: 0;
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: auto;
+    padding: clamp(16px, 3vw, 24px) 0 clamp(12px, 2vw, 16px);
+    text-align: center;
+    font-size: clamp(10px, 2.6vw, 12px);
+    color: var(--subtle);
+    font-style: italic;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ── DESKTOP: two-column layout for the home page ── */
+  @media (min-width: 700px) {
+    .home-layout {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 24px;
+      align-items: start;
+    }
+    .home-main { display: flex; flex-direction: column; gap: 18px; }
+    .home-side { display: flex; flex-direction: column; gap: 18px; }
+    /* On desktop, quick links stack vertically in sidebar */
+    .home-side .quick-links {
+      grid-template-columns: 1fr;
+    }
+    .home-side .section-banner { margin: 0; }
+    /* Hide the mobile section banner / quick-links from main flow */
+    .mobile-links { display: none; }
+    .desktop-side-links { display: flex; flex-direction: column; gap: 14px; }
+  }
+  @media (max-width: 699px) {
+    .home-layout { display: flex; flex-direction: column; gap: 14px; }
+    .home-side { display: none; }
+    .mobile-links { display: flex; flex-direction: column; gap: 12px; }
+    .desktop-side-links { display: none; }
+  }
 </style>
 </head>
 <body>
 
-<div id="app">
-  <!-- Top Global Header -->
-  <div class="header">
+<!-- ── HEADER ── -->
+<div class="header">
+  <div class="header-inner">
     <div class="header-logo">
       <img src="logo.png" alt="Ingleside RFS">
     </div>
@@ -193,95 +360,123 @@
       <p>Brigade Operations Hub</p>
     </div>
   </div>
-
-  <!-- ── TIER 1: GLOBAL SITE LOCK SCREEN ── -->
-  <div id="page-global-lock" class="page active">
-    <div class="card" style="margin-top: 10vw;">
-      <div class="card-head">Operational Security Layer</div>
-      <div style="padding: min(5vw,20px);">
-        <p class="page-sub" style="margin-bottom: 4vw; font-size: min(3.5vw, 14px);">This system is restricted to brigade operational personnel. Please enter the shared site PIN to unlock the dashboard.</p>
-        <label style="display:block; font-family:'Oswald',sans-serif; font-size:min(3.2vw,12px); letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:2vw;">Brigade Shared PIN</label>
-        <input type="password" id="global-pin-input" inputmode="numeric" pattern="[0-9]*" style="width:100%; padding:min(3.5vw,14px); border:1.5px solid var(--border); border-radius:7px; font-size:min(5vw,20px); font-family:'Oswald',sans-serif; letter-spacing:0.3em; color:var(--text); background:var(--bg); outline:none; text-align:center;" placeholder="••••" autocomplete="off">
-        <div class="lock-error" id="global-lock-error"></div>
-        <button class="btn-primary" style="margin-top: 4vw;" onclick="verifyGlobalPIN()">Access Hub</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── TIER 1 UNLOCKED: HUB LANDING DASHBOARD ── -->
-  <div id="page-home" class="page">
-    <div class="tiles">
-      <div class="tile" onclick="openRoute('attendance.html')">
-        <div class="tile-icon">📋</div>
-        <div class="tile-label">Attendance</div>
-        <div class="tile-sub">Sign in & track turnout</div>
-      </div>
-
-      <div class="tile" onclick="openRoute('truck.html')">
-        <div class="tile-icon">🚒</div>
-        <div class="tile-label">Truck Checks</div>
-        <div class="tile-sub">Vehicle inspection log</div>
-      </div>
-
-      <div class="tile" onclick="openRoute('weather.html')">
-        <div class="tile-icon">🌤️</div>
-        <div class="tile-label">Weather</div>
-        <div class="tile-sub">Fire weather & conditions</div>
-      </div>
-
-      <div class="tile" onclick="openRoute('onboarding.html')">
-        <div class="tile-icon">🆕</div>
-        <div class="tile-label">New Member</div>
-        <div class="tile-sub">Onboarding & induction</div>
-      </div>
-
-      <div class="tile" style="border-top-color: #3a6ea5;" onclick="window.open('https://flickform.com/directories/5a50faea-8b38-4b74-a6bc-0e8e31bf7632', '_blank')">
-        <div class="tile-icon">🏛️</div>
-        <div class="tile-label">NB Member Hub</div>
-        <div class="tile-sub">PPE, PPC, training forms</div>
-      </div>
-
-      <!-- Secure Gate Entry Point -> now its own page (personnel.html) with a separate PIN -->
-      <div class="tile gold-top" onclick="openRoute('personnel.html')">
-        <div class="tile-lock">🔒</div>
-        <div class="tile-icon">👥</div>
-        <div class="tile-label">Personnel / Admin</div>
-        <div class="tile-sub">Restricted brigade networks</div>
-      </div>
-    </div>
-
-    <div class="section-banner">Useful Links</div>
-    <div class="quick-links">
-      <a class="quick-link" href="https://pager.nbpager.org" target="_blank">
-        <div class="quick-link-icon">📟</div>
-        RFS Pager
-        <div class="quick-link-sub">Pager + radio stream</div>
-      </a>
-      <a class="quick-link" href="url?id=1" target="_blank">
-        <div class="quick-link-icon">📻</div>
-        NB Scanner
-        <div class="quick-link-sub">Broadcastify feed</div>
-      </a>
-    </div>
-
-    <div class="footer">Ingleside Rural Fire Brigade &nbsp;·&nbsp; Northern Beaches District</div>
-  </div>
-
 </div>
 
+<div class="shell">
+
+  <!-- ── LOCK SCREEN ── -->
+  <div id="page-global-lock" class="page active">
+    <div class="lock-wrap">
+      <div class="card">
+        <div class="card-head">Operational Security Layer</div>
+        <div class="card-body">
+          <p class="lock-desc">This system is restricted to brigade operational personnel. Please enter the shared site PIN to unlock the dashboard.</p>
+          <label class="lock-label" for="global-pin-input">Brigade Shared PIN</label>
+          <input type="password" id="global-pin-input" class="lock-input"
+                 inputmode="numeric" pattern="[0-9]*"
+                 placeholder="••••" autocomplete="off">
+          <div class="lock-error" id="global-lock-error"></div>
+          <button class="btn-primary" id="btn-access">Access Hub</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── HOME DASHBOARD ── -->
+  <div id="page-home" class="page">
+
+    <div class="home-layout">
+
+      <!-- Main content: tile grid -->
+      <div class="home-main">
+        <div class="tiles">
+          <div class="tile" id="tile-attendance">
+            <div class="tile-icon">📋</div>
+            <div class="tile-label">Attendance</div>
+            <div class="tile-sub">Sign in &amp; track turnout</div>
+          </div>
+          <div class="tile" id="tile-truck">
+            <div class="tile-icon">🚒</div>
+            <div class="tile-label">Truck Checks</div>
+            <div class="tile-sub">Vehicle inspection log</div>
+          </div>
+          <div class="tile" id="tile-weather">
+            <div class="tile-icon">🌤️</div>
+            <div class="tile-label">Weather</div>
+            <div class="tile-sub">Fire weather &amp; conditions</div>
+          </div>
+          <div class="tile" id="tile-onboarding">
+            <div class="tile-icon">🆕</div>
+            <div class="tile-label">New Member</div>
+            <div class="tile-sub">Onboarding &amp; induction</div>
+          </div>
+          <div class="tile" id="tile-nbhub" style="border-top-color:#3a6ea5;">
+            <div class="tile-icon">🏛️</div>
+            <div class="tile-label">NB Member Hub</div>
+            <div class="tile-sub">PPE, PPC, training forms</div>
+          </div>
+          <div class="tile gold-top" id="tile-personnel">
+            <div class="tile-lock">🔒</div>
+            <div class="tile-icon">👥</div>
+            <div class="tile-label">Personnel / Admin</div>
+            <div class="tile-sub">Restricted brigade records</div>
+          </div>
+        </div>
+
+        <!-- Mobile: links below tiles -->
+        <div class="mobile-links">
+          <div class="section-banner">Useful Links</div>
+          <div class="quick-links">
+            <a class="quick-link" href="https://pager.nbpager.org" target="_blank">
+              <div class="quick-link-icon">📟</div>
+              RFS Pager
+              <div class="quick-link-sub">Pager + radio stream</div>
+            </a>
+            <a class="quick-link" href="#" target="_blank">
+              <div class="quick-link-icon">📻</div>
+              NB Scanner
+              <div class="quick-link-sub">Broadcastify feed</div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop sidebar: useful links -->
+      <div class="home-side">
+        <div class="section-banner">Useful Links</div>
+        <div class="desktop-side-links">
+          <a class="quick-link" href="https://pager.nbpager.org" target="_blank">
+            <div class="quick-link-icon">📟</div>
+            RFS Pager
+            <div class="quick-link-sub">Pager + radio stream</div>
+          </a>
+          <a class="quick-link" href="#" target="_blank">
+            <div class="quick-link-icon">📻</div>
+            NB Scanner
+            <div class="quick-link-sub">Broadcastify feed</div>
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /home-layout -->
+
+    <div class="footer">Ingleside Rural Fire Brigade &nbsp;·&nbsp; Northern Beaches District</div>
+
+  </div><!-- /page-home -->
+
+</div><!-- /shell -->
+
 <script>
-// CHANGE THIS PIN TO WHAT YOU WANT THE BRIGADE MEMBERS TO USE
 const HARDCODED_GLOBAL_PIN = "2101";
 
 function showPage(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   var target = document.getElementById('page-' + name);
   if (target) target.classList.add('active');
 }
 
-// Tier-1: Local Device Validation Logic
 function verifyGlobalPIN() {
-  const pinInput = document.getElementById('global-pin-input').value;
+  var pinInput = document.getElementById('global-pin-input').value;
   if (pinInput === HARDCODED_GLOBAL_PIN) {
     localStorage.setItem('hub_global_authed', 'true');
     document.getElementById('global-lock-error').textContent = '';
@@ -292,20 +487,24 @@ function verifyGlobalPIN() {
   }
 }
 
+// Tile routing
+document.getElementById('tile-attendance').addEventListener('click', function() { window.location.href = 'attendance.html'; });
+document.getElementById('tile-truck').addEventListener('click', function() { window.location.href = 'truck.html'; });
+document.getElementById('tile-weather').addEventListener('click', function() { window.location.href = 'weather.html'; });
+document.getElementById('tile-onboarding').addEventListener('click', function() { window.location.href = 'onboarding.html'; });
+document.getElementById('tile-personnel').addEventListener('click', function() { window.location.href = 'personnel.html'; });
+document.getElementById('tile-nbhub').addEventListener('click', function() {
+  window.open('https://flickform.com/directories/5a50faea-8b38-4b74-a6bc-0e8e31bf7632', '_blank');
+});
+
+// Lock screen
+document.getElementById('btn-access').addEventListener('click', verifyGlobalPIN);
 document.getElementById('global-pin-input').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') verifyGlobalPIN();
 });
 
-function openRoute(localFile) {
-  window.location.href = localFile;
-}
-
-function openDirectLink(url) {
-  window.open(url, '_blank');
-}
-
-// On page load: Check if this browser has already been unlocked before
-window.addEventListener('DOMContentLoaded', () => {
+// Auto-unlock if already authenticated
+window.addEventListener('DOMContentLoaded', function() {
   if (localStorage.getItem('hub_global_authed') === 'true') {
     showPage('home');
   } else {
