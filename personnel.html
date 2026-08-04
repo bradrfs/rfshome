@@ -4,21 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Ingleside RFS — Personnel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap');
-
   :root {
-    --red:        #C0272D;
-    --red-dark:   #9a1f23;
-    --gold:       #C9A84C;
-    --gold-dark:  #a88730;
-    --bg:         #f7f2e8;
-    --card:       #fff;
-    --border:     #e8d5a3;
-    --text:       #1a1a1a;
-    --muted:      #555;
-    --subtle:     #888;
-    --max:        540px;
+    --red:       #C0272D;
+    --red-dark:  #9a1f23;
+    --gold:      #C9A84C;
+    --gold-dark: #a88730;
+    --bg:        #f7f2e8;
+    --card:      #fff;
+    --border:    #e8d5a3;
+    --text:      #1a1a1a;
+    --muted:     #555;
+    --subtle:    #888;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -28,73 +27,67 @@
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
 
-  .lock-error {
-    color: var(--red);
-    font-size: min(3.2vw, 12px);
-    margin-top: 2vw;
-    text-align: center;
-    min-height: 1.4em;
-  }
-  .btn-primary {
-    width: 100%;
-    margin-top: 4vw;
-    padding: min(4vw, 16px);
-    background: var(--red);
-    color: #fff;
-    border: none;
-    border-radius: 7px;
-    font-family: 'Oswald', sans-serif;
-    font-size: min(4.5vw, 17px);
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.18s;
-  }
-  .btn-primary:hover { background: var(--red-dark); }
-
-  #app {
-    width: 100%;
-    max-width: var(--max);
-    padding: 3vw;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-  }
-
+  /* ── HEADER ── */
   .header {
     background: #1a1a1a;
     border-bottom: 3px solid var(--gold);
-    padding: 2vw 3vw;
-    display: flex; align-items: center; gap: 2.5vw;
-    position: sticky; top: 0; z-index: 200;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 200;
     width: 100%;
   }
+  .header-inner {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
   .header-logo {
-    width: 12vw; height: 12vw; max-width: 52px; max-height: 52px;
+    width: 44px; height: 44px;
     border-radius: 50%; background: #fff;
     display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; overflow: hidden; border: 1px solid var(--gold);
+    flex-shrink: 0; overflow: hidden;
+    border: 1px solid var(--gold);
   }
   .header-logo img { width: 90%; height: 90%; object-fit: contain; }
   .header-title { flex: 1; min-width: 0; }
   .header-title h1 {
-    font-size: 4.5vw; font-weight: 700; color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(16px, 4.5vw, 22px);
+    font-weight: 700; color: #fff;
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .header-title p {
-    font-size: 2.5vw; color: var(--gold);
-    letter-spacing: 0.3vw; text-transform: uppercase; margin-top: 0.5vw;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(10px, 2.5vw, 12px);
+    color: var(--gold);
+    letter-spacing: 0.2em; text-transform: uppercase; margin-top: 2px;
   }
 
-  .page { display: none; flex-direction: column; gap: 3vw; flex: 1; }
-  .page.active { display: flex; animation: fadeIn 0.22s ease; }
+  /* ── LAYOUT SHELL ── */
+  .shell {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: clamp(16px, 3vw, 32px) clamp(14px, 3vw, 24px);
+    min-height: calc(100vh - 67px);
+    display: flex;
+    flex-direction: column;
+  }
 
+  /* ── PAGES ── */
+  .page { display: none; flex-direction: column; gap: clamp(12px, 3vw, 20px); flex: 1; }
+  .page.active { display: flex; animation: fadeIn 0.22s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── CARD ── */
   .card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -105,54 +98,149 @@
   }
   .card-head {
     font-family: 'Oswald', sans-serif;
-    font-size: min(3.2vw, 12px);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-size: clamp(10px, 2.8vw, 12px);
+    letter-spacing: 0.12em; text-transform: uppercase;
     color: var(--muted);
-    padding: min(3vw, 12px) min(4vw, 16px);
+    padding: 10px 16px;
     border-bottom: 1px solid var(--border);
     background: #faf7f0;
   }
+  .card-body { padding: clamp(16px, 4vw, 24px); }
 
-  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 3vw; margin-top: 2vw; }
+  /* ── LOCK SCREEN ── */
+  .lock-wrap {
+    max-width: 400px;
+    margin: clamp(24px, 8vw, 60px) auto 0;
+    width: 100%;
+  }
+  .lock-label {
+    display: block;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(10px, 3vw, 12px);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 10px;
+  }
+  .lock-input {
+    width: 100%;
+    padding: clamp(10px, 3vw, 14px);
+    border: 1.5px solid var(--border); border-radius: 7px;
+    font-size: clamp(18px, 5vw, 22px);
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: 0.3em; color: var(--text);
+    background: var(--bg); outline: none; text-align: center;
+    transition: border-color 0.15s;
+  }
+  .lock-input:focus { border-color: var(--gold); }
+  .lock-error {
+    color: var(--red);
+    font-size: clamp(11px, 3vw, 13px);
+    margin-top: 8px; text-align: center; min-height: 1.4em;
+    font-style: italic;
+  }
+  .lock-desc {
+    font-size: clamp(12px, 3.5vw, 14px);
+    color: var(--muted); font-style: italic;
+    line-height: 1.6; margin-bottom: clamp(14px, 4vw, 20px);
+  }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    width: 100%;
+    margin-top: clamp(12px, 4vw, 18px);
+    padding: clamp(12px, 3.5vw, 16px);
+    background: var(--red); color: #fff;
+    border: none; border-radius: 7px;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(14px, 4vw, 17px);
+    font-weight: 600; letter-spacing: 0.08em;
+    text-transform: uppercase; cursor: pointer;
+    transition: background 0.18s;
+  }
+  .btn-primary:hover { background: var(--red-dark); }
+
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: none; border: none; cursor: pointer;
+    color: var(--red);
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(12px, 3.5vw, 15px);
+    letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 0; transition: color 0.15s;
+  }
+  .back-btn:hover { color: var(--red-dark); }
+
+  /* ── PAGE TITLE ── */
+  .page-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(20px, 6vw, 28px);
+    font-weight: 700; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--text);
+  }
+  .page-sub {
+    font-size: clamp(12px, 3.2vw, 13px);
+    color: var(--muted); font-style: italic;
+  }
+
+  /* ── TILE GRID ──
+     Mobile:  2 columns
+     Tablet+: 3 columns
+  ── */
+  .tiles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(10px, 2.5vw, 18px);
+  }
+  @media (min-width: 600px) {
+    .tiles { grid-template-columns: repeat(3, 1fr); }
+  }
+
   .tile {
     background: var(--card);
     border: 1px solid var(--border);
     border-top: 4px solid var(--gold);
     border-radius: 10px;
-    padding: 5vw 4vw;
-    display: flex;
-    flex-direction: column;
+    padding: clamp(16px, 4vw, 24px) clamp(12px, 3vw, 20px);
+    display: flex; flex-direction: column;
     align-items: center;
-    gap: 2.5vw;
+    gap: clamp(8px, 2vw, 12px);
     cursor: pointer;
-    text-decoration: none;
-    color: var(--text);
+    text-decoration: none; color: var(--text);
     box-shadow: 0 1px 8px rgba(0,0,0,0.05);
     transition: all 0.2s;
   }
-  .tile:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(201,168,76,0.2); border-top-color: var(--gold-dark); }
-  .tile:active { transform: translateY(0); }
-  .tile-icon { font-size: min(10vw, 40px); line-height: 1; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.1)); }
-  .tile-label { font-family: 'Oswald', sans-serif; font-size: min(4.2vw, 16px); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text); text-align: center; }
-
-  .back-btn {
-    display: flex; align-items: center; gap: 2vw; background: none; border: none; cursor: pointer; color: var(--red); font-family: 'Oswald', sans-serif; font-size: min(4vw, 15px); letter-spacing: 0.05em; text-transform: uppercase; padding: 0; margin-bottom: 1vw;
+  .tile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(201,168,76,0.2);
+    border-top-color: var(--gold-dark);
   }
-  .back-btn:hover { color: var(--red-dark); }
-  .page-title { font-family: 'Oswald', sans-serif; font-size: min(6vw, 24px); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text); margin-bottom: 1vw; }
-  .page-sub { font-size: min(3.2vw, 12.5px); color: var(--muted); font-style: italic; margin-bottom: 2vw; }
+  .tile:active { transform: translateY(0); }
+  .tile-icon {
+    font-size: clamp(28px, 8vw, 40px);
+    line-height: 1;
+    filter: drop-shadow(0 1px 3px rgba(0,0,0,0.1));
+  }
+  .tile-label {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(13px, 3.8vw, 16px);
+    font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase; text-align: center;
+  }
 
-  .footer { margin-top: auto; padding: 3vw 0 2vw; text-align: center; font-size: min(3vw, 11px); color: var(--subtle); font-style: italic; border-top: 1px solid var(--border); }
-
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  #app { animation: fadeIn 0.3s ease; }
+  /* ── FOOTER ── */
+  .footer {
+    margin-top: auto;
+    padding: clamp(16px, 3vw, 24px) 0 clamp(12px, 2vw, 16px);
+    text-align: center;
+    font-size: clamp(10px, 2.6vw, 12px);
+    color: var(--subtle); font-style: italic;
+    border-top: 1px solid var(--border);
+  }
 </style>
 </head>
 <body>
 
-<div id="app">
-  <div class="header">
+<div class="header">
+  <div class="header-inner">
     <div class="header-logo">
       <img src="logo.png" alt="Ingleside RFS">
     </div>
@@ -161,70 +249,75 @@
       <p>Personnel / Admin</p>
     </div>
   </div>
+</div>
+
+<div class="shell">
 
   <!-- ── LOCK SCREEN ── -->
   <div id="page-lock" class="page active">
-    <button class="back-btn" onclick="window.location.href='index.html'">← Back to Hub</button>
-    <div class="card" style="margin-top: 4vw;">
-      <div class="card-head">Restricted Access</div>
-      <div style="padding: min(5vw,20px);">
-        <p class="page-sub" style="margin-bottom: 4vw; font-size: min(3.5vw, 14px);">This section is restricted to authorised management members. Enter the admin PIN to continue.</p>
-        <label style="display:block; font-family:'Oswald',sans-serif; font-size:min(3.2vw,12px); letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); margin-bottom:2vw;">Admin PIN</label>
-        <input type="password" id="pin-input" inputmode="numeric" pattern="[0-9]*" style="width:100%; padding:min(3.5vw,14px); border:1.5px solid var(--border); border-radius:7px; font-size:min(5vw,20px); font-family:'Oswald',sans-serif; letter-spacing:0.3em; color:var(--text); background:var(--bg); outline:none; text-align:center;" placeholder="••••" autocomplete="off">
-        <div class="lock-error" id="lock-error"></div>
-        <button class="btn-primary" onclick="verifyPIN()">Unlock</button>
+    <div>
+      <button class="back-btn" id="btn-back-lock">&#8592; Back to Hub</button>
+    </div>
+    <div class="lock-wrap">
+      <div class="card">
+        <div class="card-head">Restricted Access</div>
+        <div class="card-body">
+          <p class="lock-desc">This section is restricted to authorised management members. Enter the admin PIN to continue.</p>
+          <label class="lock-label" for="pin-input">Admin PIN</label>
+          <input type="password" id="pin-input" class="lock-input"
+                 inputmode="numeric" pattern="[0-9]*"
+                 placeholder="••••" autocomplete="off">
+          <div class="lock-error" id="lock-error"></div>
+          <button class="btn-primary" id="btn-unlock">Unlock</button>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- ── UNLOCKED: ADMIN TILES ── -->
   <div id="page-tiles" class="page">
-    <button class="back-btn" onclick="window.location.href='index.html'">← Back to Hub</button>
+    <div>
+      <button class="back-btn" id="btn-back-tiles">&#8592; Back to Hub</button>
+    </div>
     <div class="page-title">Personnel / Admin</div>
     <div class="tiles">
-      <div class="tile" onclick="openRoute('crew.html')">
+      <div class="tile" id="tile-crew">
         <div class="tile-icon">🪧</div>
         <div class="tile-label">Crew Assignment</div>
       </div>
-
-      <div class="tile" onclick="openRoute('brigade.html')">
+      <div class="tile" id="tile-brigade">
         <div class="tile-icon">🏢</div>
         <div class="tile-label">Brigade Management</div>
       </div>
-
-      <div class="tile" onclick="openRoute('honour.html')">
+      <div class="tile" id="tile-honour">
         <div class="tile-icon">🎖️</div>
         <div class="tile-label">Honour Board</div>
       </div>
-
-      <div class="tile" onclick="openRoute('commed.html')">
+      <div class="tile" id="tile-commed">
         <div class="tile-icon">📚</div>
         <div class="tile-label">Comm Ed</div>
       </div>
-
-      <div class="tile" onclick="openRoute('agm.html')">
+      <div class="tile" id="tile-agm">
         <div class="tile-icon">📅</div>
         <div class="tile-label">AGM</div>
       </div>
     </div>
-
     <div class="footer">Ingleside Rural Fire Brigade &nbsp;·&nbsp; Northern Beaches District</div>
   </div>
 
-</div>
+</div><!-- /shell -->
 
 <script>
-// Pick a PIN that is DIFFERENT from the Tier 1 hub PIN in index.html
 const ADMIN_PIN = "9450";
 
 function showPage(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
   var target = document.getElementById('page-' + name);
   if (target) target.classList.add('active');
 }
 
 function verifyPIN() {
-  const val = document.getElementById('pin-input').value;
+  var val = document.getElementById('pin-input').value;
   if (val === ADMIN_PIN) {
     document.getElementById('lock-error').textContent = '';
     showPage('tiles');
@@ -234,13 +327,18 @@ function verifyPIN() {
   }
 }
 
+document.getElementById('btn-unlock').addEventListener('click', verifyPIN);
 document.getElementById('pin-input').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') verifyPIN();
 });
+document.getElementById('btn-back-lock').addEventListener('click', function() { window.location.href = 'index.html'; });
+document.getElementById('btn-back-tiles').addEventListener('click', function() { window.location.href = 'index.html'; });
 
-function openRoute(localFile) {
-  window.location.href = localFile;
-}
+document.getElementById('tile-crew').addEventListener('click', function() { window.location.href = 'crew-assignment.html'; });
+document.getElementById('tile-brigade').addEventListener('click', function() { window.location.href = 'onboarding.html'; });
+document.getElementById('tile-honour').addEventListener('click', function() { window.location.href = 'honour-board.html'; });
+document.getElementById('tile-commed').addEventListener('click', function() { window.location.href = 'community-ed.html'; });
+document.getElementById('tile-agm').addEventListener('click', function() { window.location.href = 'agm.html'; });
 </script>
 </body>
 </html>
